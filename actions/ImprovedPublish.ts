@@ -7,8 +7,9 @@ export function ImprovedPublish(originalPublishAction: any) {
                 ...originalResult,
                 onHandle: () => {
                     // custom function for supabase will go here
-                    console.log('Supabase Insert');
                     console.log(props)
+
+                    console.log(`ID: ${props.id}`)
     
                     originalResult.onHandle();
                 }

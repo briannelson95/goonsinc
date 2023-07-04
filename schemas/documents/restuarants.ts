@@ -20,6 +20,11 @@ export const restaurants = defineType({
                 maxLength: 96,
             },
             validation: Rule => Rule.required()
+        }),
+        defineField({
+            name: 'featuredImage',
+            title: 'Featured Image',
+            type: 'mainImage',
         })
     ],
 })
