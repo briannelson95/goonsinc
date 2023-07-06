@@ -1,7 +1,16 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import Card from './Card'
 
 export default function Form({questions, onClick}: {questions: Question[], onClick?: any}) {
+    const [characters, setCharacters]= useState(0)
+
+    const handleSumbit = (e: any) => {
+        e.preventDefault()
+
+        onClick()
+    }
     return (
         <Card>
             <button className='absolute z-30 top-2 right-2' onClick={onClick}>
@@ -44,11 +53,27 @@ export default function Form({questions, onClick}: {questions: Question[], onCli
                         );
                     }
                 )}
-                <input 
-                    type='submit' 
-                    value='Share my review' 
+                <fieldset className='w-full'>
+                    <legend className='text-2xl font-bold'>
+                        Tell us what you think
+                    </legend>
+                    <div className='w-full relative'>
+                        <textarea 
+                            placeholder='Add a short review' 
+                            className='p-2 border rounded-xl w-full relative'
+                            rows={2}
+                            maxLength={180}
+                            onChange={e => setCharacters(e.target.value.length)}
+                        />
+                        <p className='absolute bottom-2 right-3 text-sm text-gray-400'>{characters}/180</p>
+                    </div>
+                </fieldset>
+                <button 
                     className='self-end cursor-pointer px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition-all duration-200 rounded-xl'
-                /> 
+                    onClick={handleSumbit}
+                >
+                    Share my review
+                </button> 
             </form>
         </Card>
     )

@@ -3,21 +3,36 @@ import React, { useState } from 'react'
 import Button from './Button'
 import Form from './Form';
 import Image from 'next/image';
+import PercentageBar from './PercentageBar';
 
 const testQuestsions: Question[] = [
     {
         question: 'Rate the taste of the goons',
-        category: 'taste'
+        category: 'taste',
+        scores: [5,5,4,4,2,5,5]
     },
     {
         question: 'Rate the filling',
-        category: 'filling'
+        category: 'filling',
+        scores: [5,4,4,3,3,5,1]
     },
     {
         question: 'Rate the transportability',
-        category: 'transportability'
+        category: 'transportability',
+        scores: [5,5,3,5,2,5,1]
     },
+    {
+        question: 'Rate the cost',
+        category: 'cost',
+        scores: [5,5,4,3,2,5,2]
+    },
+    {
+        question: 'Last question',
+        category: 'another',
+        scores: [5,5,4,5,2,5,2]
+    }
 ]
+
 
 export default function RestauranInfo() {
     const [openReview, setOpenReview] = useState(false);
@@ -72,12 +87,27 @@ export default function RestauranInfo() {
                             className='object-cover object-center h-full w-full'
                         />
                     </div>
+                </div>
+                <div className='space-y-4'>
+                    {testQuestsions.map((item: any, index: number) => {
+                        const sum = item.scores.reduce((acc: number, score: number) => acc + score, 0);
+                        const avg = (sum / item.scores.length);
+                        const avgPercent = (avg / 5 * 100)
 
+                        return (
+                            <div key={index} className=''>
+                                <h3 className='text-lg font-medium capitalize'>
+                                    {item.category}
+                                </h3>
+                                <PercentageBar completed={avg} percent={avgPercent} />
+                            </div>
+                        )
+                    })}
                 </div>
             </section>
             {openReview && (
-                <section className='absolute top-0 left-0 w-screen h-screen z-20 bg-gray-600/50 flex justify-center items-center'>
-                    <section className='mx-auto w-full max-w-2xl'>
+                <section className='absolute top-0 left-0 w-screen h-screen z-20 bg-gray-600/50 flex justify-center items-center overflow-hidden'>
+                    <section className='mx-auto w-full max-w-2xl h-screen overflow-scroll'>
                         <Form 
                             questions={testQuestsions}
                             onClick={handleOpenReview}
