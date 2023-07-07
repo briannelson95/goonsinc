@@ -1,3 +1,4 @@
+import Session from '@/components/Session'
 import '@/styles/globals.css'
 
 export default function RootLayout({
@@ -7,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <Session>
+        <body>{children}</body>
+      </Session>
     </html>
   )
 }
