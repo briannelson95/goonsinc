@@ -2,12 +2,51 @@
 
 import React, { useState } from 'react'
 import Card from './Card'
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
-export default function Form({questions, onClick}: {questions: Question[], onClick?: any}) {
+export default function Form({questions, onClick, cookie, parent_id}: {questions: Question[], onClick?: any, cookie: string, parent_id: number}) {
+    const supabase = useSupabaseClient();
     const [characters, setCharacters]= useState(0)
+    const [cost, setCost] = useState();
+    const [crisp, setCrisp] = useState();
+    const [taste, setTaste] = useState();
+    const [transport, setTransport] = useState();
+
+    const [ratings, setRatings]:any = useState({});
+
+    const handleRatingChange = (category: any, rating: any) => {
+        setRatings((prevState: any) => ({ ...prevState, [category]: rating }));
+    };
 
     const handleSumbit = (e: any) => {
         e.preventDefault()
+        supabase.from('ratings')
+            .select()
+            .eq('cookie', cookie)
+            .eq('parent', parent_id)
+            .then(result => {
+                if (result.data?.length) {
+                    // User has already submitted a review for the specific parent_id
+                    console.log('User has already submitted a review for this parent_id');
+                    // Handle accordingly (e.g., disable submission)
+                } else {
+                    // User has not submitted a review for the specific parent_id
+                    console.log('Allow submission');
+                    supabase.from('ratings')
+                        .insert({
+                            parent: parent_id,
+                            cookie,
+                            taste: ratings.taste,
+                            cost: ratings.cost,
+                            transport: ratings.transport,
+                            crisp: ratings.cost,
+                        })
+                        .then(result => {
+                            console.log(result)
+                        })
+                    // Handle accordingly (e.g., enable submission)
+                }
+            });
 
         onClick()
     }
@@ -21,19 +60,22 @@ export default function Form({questions, onClick}: {questions: Question[], onCli
             <form className='space-y-4 flex flex-col'>
                 {questions.length > 0 && 
                     questions.map((question: any, index: any) => {
-                        const questionCategory = question.category;
+                        const { category, question: questionText } = question;
+
                         const options = [];
 
                         for (let i = 1; i <= 5; i++) {
-                            const optionId = `${questionCategory}-${i}`;
+                            const optionId = `${category}-${i}`;
+
                             options.push(
                                 <div key={optionId}>
                                     <input
                                         type='radio'
-                                        name={questionCategory}
+                                        name={category}
                                         id={optionId}
                                         value={i}
                                         className='peer hidden'
+                                        onChange={() => handleRatingChange(category, i)}
                                     />
                                     <label
                                         htmlFor={optionId}

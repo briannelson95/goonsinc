@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar'
+import Session from '@/components/Session'
 import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
 
@@ -16,12 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-200`}>
-        <Navbar />
-        <div className='max-w-4xl mx-auto py-6'>
-          {children}
-        </div>
-      </body>
+      <Session>
+        <body className={`${inter.className} bg-gray-200`}>
+          <Navbar />
+          <div className='max-w-4xl mx-auto py-6'>
+            {children}
+          </div>
+        </body>
+      </Session>
     </html>
   )
 }
