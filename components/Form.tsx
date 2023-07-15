@@ -3,20 +3,23 @@
 import React, { useState } from 'react'
 import Card from './Card'
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { toast } from 'react-hot-toast';
 
 export default function Form({questions, onClick, cookie, parent_id}: {questions: Question[], onClick?: any, cookie: string, parent_id: number}) {
     const supabase = useSupabaseClient();
-    const [characters, setCharacters]= useState(0)
-    const [cost, setCost] = useState();
-    const [crisp, setCrisp] = useState();
-    const [taste, setTaste] = useState();
-    const [transport, setTransport] = useState();
 
+    const [characters, setCharacters]= useState(0)
     const [ratings, setRatings]:any = useState({});
+    const [review, setReview] = useState();
 
     const handleRatingChange = (category: any, rating: any) => {
         setRatings((prevState: any) => ({ ...prevState, [category]: rating }));
     };
+
+    const handleReview = (e: any) => {
+        setCharacters(e.target.value.length)
+        setReview(e.target.value)
+    }
 
     const handleSumbit = (e: any) => {
         e.preventDefault()
@@ -28,6 +31,7 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                 if (result.data?.length) {
                     // User has already submitted a review for the specific parent_id
                     console.log('User has already submitted a review for this parent_id');
+                    toast.error("You've already reviewed this restaurant")
                     // Handle accordingly (e.g., disable submission)
                 } else {
                     // User has not submitted a review for the specific parent_id
@@ -40,9 +44,11 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                             cost: ratings.cost,
                             transport: ratings.transport,
                             crisp: ratings.cost,
+                            review
                         })
                         .then(result => {
                             console.log(result)
+                            toast.success('Review Submitted!')
                         })
                     // Handle accordingly (e.g., enable submission)
                 }
@@ -105,7 +111,7 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                             className='p-2 border rounded-xl w-full relative'
                             rows={2}
                             maxLength={180}
-                            onChange={e => setCharacters(e.target.value.length)}
+                            onChange={handleReview}
                         />
                         <p className='absolute bottom-2 right-3 text-sm text-gray-400'>{characters}/180</p>
                     </div>

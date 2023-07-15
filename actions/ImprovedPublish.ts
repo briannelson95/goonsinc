@@ -28,24 +28,24 @@ export function ImprovedPublish(originalPublishAction: any) {
                     originalResult.onHandle();
                 }
             }
-        } else if (props.type == "categories") { 
+        // } else if (props.type == "categories") { 
 
-            return {
-                ...originalResult,
-                onHandle: () => {
-                    supabase.from('categories')
-                        .insert({
-                            title: props.draft.title,
-                        })
-                        .then(result => {
-                            console.log(result)
-                            if(!result.error) return
-                        })
+        //     return {
+        //         ...originalResult,
+        //         onHandle: () => {
+        //             supabase.from('categories')
+        //                 .insert({
+        //                     title: props.draft.title,
+        //                 })
+        //                 .then(result => {
+        //                     console.log(result)
+        //                     if(!result.error) return
+        //                 })
 
-                    originalResult.onHandle();
-                }
+        //             originalResult.onHandle();
+        //         }
 
-            }
+        //     }
         } else {
             // returns original function if type != restaurants
             return {
