@@ -1,11 +1,11 @@
 import Form from '@/components/Form'
 import RestauranInfo from '@/components/RestauranInfo'
 import React from 'react'
-import { cookies } from 'next/headers'
 import { groq } from 'next-sanity'
 import { client } from '@/lib/sanity.client'
 import { allRestaurants } from '@/lib/queries'
 import { notFound } from 'next/navigation'
+import { headers } from "next/headers";
 
 export async function generateStaticParams() {
     const query = groq`*[_type == "restaurants"]{slug}`
@@ -21,23 +21,22 @@ export async function generateStaticParams() {
 export default async function SingleRestaurantPage({params: {slug}}: PageProps) {
     const page: any = await client.fetch(allRestaurants, { slug });
 
+    const ip = headers().get("x-forwarded-for");
+    console.log(`USER IP: ${ip}`)
+
     if (!page) {
         notFound()
     }
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.getAll()[1].value;
-
-    // console.log(page)
-    // need to pass restaurant page info to restaurantInfo component
-    // need to get id of restaurant from supabase using sanity_id
-
     return (
         <main className='w-full'>
             <RestauranInfo 
-                cookie={cookie} 
-                restaurantData={page}    
+                ip={ip} 
+                restaurantData={page}
             />
+            <p>
+                IP Address: {`IP: ${ip != null && ip != undefined ? ip : 'null'}`}
+            </p>
         </main>
     )
 }

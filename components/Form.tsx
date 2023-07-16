@@ -5,7 +5,7 @@ import Card from './Card'
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { toast } from 'react-hot-toast';
 
-export default function Form({questions, onClick, cookie, parent_id}: {questions: Question[], onClick?: any, cookie: string, parent_id: number}) {
+export default function Form({questions, onClick, cookie, parent_id}: {questions: Question[], onClick?: any, cookie: string | null, parent_id: number}) {
     const supabase = useSupabaseClient();
 
     const [characters, setCharacters]= useState(0)
@@ -119,6 +119,7 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                 <button 
                     className='self-end cursor-pointer px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition-all duration-200 rounded-xl'
                     onClick={handleSumbit}
+                    disabled={!cookie}
                 >
                     Share my review
                 </button> 
