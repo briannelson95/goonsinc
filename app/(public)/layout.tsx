@@ -20,13 +20,12 @@ export default async function RootLayout({
 }) {
   
   const data = await client.fetch(siteSettings)
-  // console.log(data)
 
   return (
     <html lang="en">
       <Session>
         <body className={`${inter.className} bg-gray-200`}>
-          <Navbar />
+          <Navbar navigation={data.navigation} />
           <div>
             <Toaster
               position="bottom-right"

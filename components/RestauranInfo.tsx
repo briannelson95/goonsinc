@@ -5,6 +5,9 @@ import Form from './Form';
 import Image from 'next/image';
 import PercentageBar from './PercentageBar';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import urlFor from '@/lib/urlFor';
+import { PortableText } from '@portabletext/react';
+import { RichTextComponent } from './RichTextComponent';
 
 const testQuestsions: Question[] = [
     {
@@ -128,7 +131,7 @@ export default function RestauranInfo({restaurantData, cookie}: {restaurantData:
             {/* <CookieContext.Provider value={{ cookie }}> */}
                 <section className='grid grid-cols-2 gap-4'>
                     <div className='space-y-4'>
-                        <h1 className='text-4xl font-bold'>Kowloon</h1>
+                        <h1 className='text-4xl font-bold'>{restaurantData.title}</h1>
                         <div className='grid grid-cols-2 gap-2'>
                             <div>
                                 <p className='text-lg font-medium'>Overall Rating:</p>
@@ -145,18 +148,19 @@ export default function RestauranInfo({restaurantData, cookie}: {restaurantData:
                             </div>
                         </div>
                         <div className='space-y-3'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error sequi illum nisi soluta perferendis earum, veniam exercitationem culpa unde? Enim facilis, voluptatem iusto cumque quae maxime hic. Non, beatae.</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit consequuntur, tenetur, corporis eveniet obcaecati molestias quisquam expedita sequi voluptatum, ex delectus quo dignissimos est totam nulla commodi repellat soluta fugiat.</p>
+                            {restaurantData.body && (
+                                <PortableText value={restaurantData.body} components={RichTextComponent} />
+                            )}
                         </div>
                     </div>
                     <div className='w-full aspect-w-1 aspect-h-1'>
                         <div className='h-96 bg-gray-500 rounded-xl overflow-hidden'>
                             <Image
-                                src={'https://images.unsplash.com/photo-1623689048105-a17b1e1936b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=689&q=80'}
+                                src={urlFor(restaurantData.featuredImage.image).url()}
                                 height={1000}
                                 width={1000}
                                 priority
-                                alt=''
+                                alt={restaurantData.featuredImage.alt}
                                 className='object-cover object-center h-full w-full'
                             />
                         </div>
