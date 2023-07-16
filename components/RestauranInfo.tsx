@@ -115,8 +115,8 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
 
     return (
         <>
-            <section className='grid grid-cols-2 gap-4'>
-                <div className='space-y-4'>
+            <section className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                <div className='order-2 md:order-1 space-y-4'>
                     <h1 className='text-4xl font-bold'>{restaurantData.title}</h1>
                     <div className='grid grid-cols-2 gap-2'>
                         <div>
@@ -139,8 +139,8 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
                         )}
                     </div>
                 </div>
-                <div className='w-full aspect-w-1 aspect-h-1'>
-                    <div className='h-96 bg-gray-500 rounded-xl overflow-hidden'>
+                <div className='order-1 md:order-2 w-full aspect-w-1 aspect-h-1'>
+                    <div className='h-32 md:h-96 bg-gray-500 rounded-xl overflow-hidden'>
                         <Image
                             src={urlFor(restaurantData.featuredImage.image).url()}
                             height={1000}
@@ -151,7 +151,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
                         />
                     </div>
                 </div>
-                <div className='space-y-4'>
+                <div className='order-3 space-y-4'>
                     {categoryData.length && (
                         <h3 className='text-2xl font-semibold'>
                             {categoryData[0].scores ? categoryData[0].scores.length : 0} Total Reviews

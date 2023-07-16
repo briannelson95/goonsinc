@@ -22,21 +22,17 @@ export default async function SingleRestaurantPage({params: {slug}}: PageProps) 
     const page: any = await client.fetch(allRestaurants, { slug });
 
     const ip = headers().get("x-forwarded-for");
-    console.log(`USER IP: ${ip}`)
 
     if (!page) {
         notFound()
     }
 
     return (
-        <main className='w-full'>
+        <main className='w-full '>
             <RestauranInfo 
                 ip={ip} 
                 restaurantData={page}
             />
-            <p>
-                IP Address: {`IP: ${ip != null && ip != undefined ? ip : 'null'}`}
-            </p>
         </main>
     )
 }

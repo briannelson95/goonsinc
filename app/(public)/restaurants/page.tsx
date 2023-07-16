@@ -9,7 +9,7 @@ export default async function RestaurantsList() {
 
     return (
         <main className='min-h-screen'>
-            <div className='grid grid-cols-3 gap-4 h-full'>
+            <div className='grid grid-cols-2 md:grid-cols-3 gap-4 h-full'>
                 {data.length > 0 && (
                     data.map((item: any) => (
                         <RestaurantThumbnail
