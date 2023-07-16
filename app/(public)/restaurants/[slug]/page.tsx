@@ -18,6 +18,8 @@ export async function generateStaticParams() {
     }))
 }
 
+export const revalidate = 180
+
 export default async function SingleRestaurantPage({params: {slug}}: PageProps) {
     const page: any = await client.fetch(allRestaurants, { slug });
 

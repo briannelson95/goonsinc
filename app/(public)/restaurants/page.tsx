@@ -4,6 +4,8 @@ import { client } from '@/lib/sanity.client'
 import Image from 'next/image'
 import React from 'react'
 
+export const revalidate = 180
+
 export default async function RestaurantsList() {
     const data = await client.fetch(listRestaurants)
 
