@@ -72,22 +72,22 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                 <form className='pt-2 space-y-4 flex flex-col'>
                     {questions.length > 0 && 
                         questions.map((question: any, index: any) => {
-                            const { category, question: questionText } = question;
+                            const { title, question: questionText } = question;
 
                             const options = [];
 
                             for (let i = 1; i <= 5; i++) {
-                                const optionId = `${category}-${i}`;
+                                const optionId = `${title}-${i}`;
 
                                 options.push(
                                     <div key={optionId}>
                                         <input
                                             type='radio'
-                                            name={category}
+                                            name={title}
                                             id={optionId}
                                             value={i}
                                             className='peer hidden'
-                                            onChange={() => handleRatingChange(category, i)}
+                                            onChange={() => handleRatingChange(title, i)}
                                         />
                                         <label
                                             htmlFor={optionId}
