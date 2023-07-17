@@ -13,8 +13,8 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
     const [review, setReview] = useState();
     const [openDesc, setOpenDesc] = useState(false)
 
-    const handleRatingChange = (category: any, rating: any) => {
-        setRatings((prevState: any) => ({ ...prevState, [category]: rating }));
+    const handleRatingChange = (title: any, rating: any) => {
+        setRatings((prevState: any) => ({ ...prevState, [title]: rating }));
     };
 
     const handleReview = (e: any) => {
@@ -45,10 +45,11 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                         .insert({
                             parent: parent_id,
                             cookie,
-                            taste: ratings.taste,
-                            cost: ratings.cost,
-                            transport: ratings.transport,
-                            crisp: ratings.cost,
+                            filling: ratings.filling,
+                            wrap: ratings.wrap,
+                            ratio: ratings.ratio,
+                            crisp: ratings.crisp,
+                            accoutrement: ratings.accoutrement,
                             review
                         })
                         .then(result => {
