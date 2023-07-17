@@ -9,27 +9,7 @@ import urlFor from '@/lib/urlFor';
 import { PortableText } from '@portabletext/react';
 import { RichTextComponent } from './RichTextComponent';
 
-const testQuestsions: Question[] = [
-    {
-        category: 'cost',
-        question: 'Rate the cost'
-    },
-    {
-        category: 'crisp',
-        question: 'Rate the crispiness'
-    },
-    {
-        category: 'taste',
-        question: 'Rate the taste'
-    },
-    {
-        category: 'transport',
-        question: 'Rate the transport'
-    }
-]
-
-
-export default function RestauranInfo({restaurantData, ip}: {restaurantData: Restaurant, ip: string | null}) {
+export default function RestauranInfo({restaurantData, ip}: {restaurantData: any, ip: string | null}) {
     const supabase = useSupabaseClient();
     const [openReview, setOpenReview] = useState(false);
     const [categoryData, setCategoryData]:any = useState([]);
@@ -47,7 +27,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
     useEffect(() => {
         supabase.from('restaurants')
             .select()
-            .eq('sanity_id', restaurantData._id)
+            .eq('sanity_id', restaurantData.restaurant._id)
             .then(result => {
                 if (!result.error) {
                     setParent(result.data[0].id)
@@ -55,7 +35,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
             })
 
         
-    }, [restaurantData._id, supabase]);
+    }, [restaurantData.restaurant._id, supabase]);
 
     fetchRating()
 
@@ -88,7 +68,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
 
                 const transformData = () => {
                     const transformedArr:any = [];
-                    const categories = ['taste', 'cost', 'crisp', 'transport'];
+                    const categories = ['filling', 'wrap', 'crisp', 'ratio', 'accoutrement'];
 
                     categories.forEach(category => {
                         const scores = data?.map(item => item[category]);
@@ -117,7 +97,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
         <>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div className='order-2 md:order-1 space-y-4'>
-                    <h1 className='text-4xl font-bold'>{restaurantData.title}</h1>
+                    <h1 className='text-4xl font-bold'>{restaurantData.restaurant.title}</h1>
                     <div className='grid grid-cols-2 gap-2'>
                         <div>
                             <p className='text-lg font-medium'>Overall Rating:</p>
@@ -134,19 +114,19 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
                         </div>
                     </div>
                     <div className='space-y-3'>
-                        {restaurantData.body && (
-                            <PortableText value={restaurantData.body} components={RichTextComponent} />
+                        {restaurantData.restaurant.body && (
+                            <PortableText value={restaurantData.restaurant.body} components={RichTextComponent} />
                         )}
                     </div>
                 </div>
                 <div className='order-1 md:order-2 w-full aspect-w-1 aspect-h-1'>
                     <div className='h-32 md:h-96 bg-gray-500 rounded-xl overflow-hidden'>
                         <Image
-                            src={urlFor(restaurantData.featuredImage.image).url()}
+                            src={urlFor(restaurantData.restaurant.featuredImage.image).url()}
                             height={1000}
                             width={1000}
                             priority
-                            alt={restaurantData.featuredImage.alt}
+                            alt={restaurantData.restaurant.featuredImage.alt}
                             className='object-cover object-center h-full w-full'
                         />
                     </div>
@@ -177,7 +157,7 @@ export default function RestauranInfo({restaurantData, ip}: {restaurantData: Res
                 <section className='absolute top-0 left-0 w-screen h-screen z-20 bg-gray-600/50 flex justify-center items-center overflow-hidden'>
                     <section className='mx-auto w-full max-w-2xl h-screen overflow-scroll'>
                         <Form 
-                            questions={testQuestsions}
+                            questions={restaurantData.questions}
                             cookie={ip}
                             parent_id={parent}
                             onClick={handleOpenReview}

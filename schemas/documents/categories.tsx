@@ -18,5 +18,16 @@ export const categories = defineType({
             title: 'Title',
             type: 'string'
         }),
+        defineField({
+            name: 'question',
+            title: 'Question',
+            type: 'string'
+        }),
+        defineField({
+            name: 'description',
+            title: 'Description',
+            type: 'string',
+            description: 'This will be used as a tooltip to describe the question'
+        })
     ],
 })

@@ -8,13 +8,22 @@ export const siteSettings = groq`*[_type == "siteSettings"][0]{
     }
 }`
 
-export const allRestaurants =  groq`*[_type == "restaurants" && slug.current == $slug][0]{
-    _id,
-    body,
-    title,
-    featuredImage,
-    slug
-}`
+export const allRestaurants =  groq`{
+    "restaurant": *[_type == "restaurants" && slug.current == $slug][0]{
+        _id,
+        body,
+        title,
+        featuredImage,
+        slug
+    },
+    "questions": *[_type == "categories"] | order(_createdAt asc){
+        title,
+        question,
+        description
+    }
+}
+    
+`
 
 export const listRestaurants = groq`
     *[_type == "restaurants"] | order(title asc){
