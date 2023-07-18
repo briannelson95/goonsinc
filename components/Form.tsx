@@ -34,13 +34,8 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
             .eq('parent', parent_id)
             .then(result => {
                 if (result.data?.length) {
-                    // User has already submitted a review for the specific parent_id
-                    console.log('User has already submitted a review for this parent_id');
                     toast.error("You've already reviewed this restaurant")
-                    // Handle accordingly (e.g., disable submission)
                 } else {
-                    // User has not submitted a review for the specific parent_id
-                    console.log('Allow submission');
                     supabase.from('ratings')
                         .insert({
                             parent: parent_id,
@@ -56,7 +51,6 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                             console.log(result)
                             toast.success('Review Submitted!')
                         })
-                    // Handle accordingly (e.g., enable submission)
                 }
             });
 
