@@ -33,6 +33,7 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
             .eq('cookie', cookie)
             .eq('parent', parent_id)
             .then(result => {
+                console.log(result)
                 if (result.data?.length) {
                     toast.error("You've already reviewed this restaurant")
                 } else {
