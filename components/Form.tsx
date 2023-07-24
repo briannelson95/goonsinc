@@ -8,6 +8,8 @@ import { toast } from 'react-hot-toast';
 export default function Form({questions, onClick, cookie, parent_id}: {questions: Question[], onClick?: any, cookie: string | null, parent_id: number}) {
     const supabase = useSupabaseClient();
 
+    const ENV = process.env.NODE_ENV;
+
     const [characters, setCharacters]= useState(0)
     const [ratings, setRatings]:any = useState({});
     const [review, setReview] = useState();
@@ -35,12 +37,17 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
             .then(result => {
                 console.log(result)
                 if (result.data?.length) {
-                    toast.error("You've already reviewed this restaurant")
+                    toast.error(
+                        "A review for this restaurant from this device/internet has already been submitted.\n\nPlease try later or a different internet connection.",
+                        {
+                            duration: 6000,
+                        }
+                    )
                 } else {
                     supabase.from('ratings')
                         .insert({
                             parent: parent_id,
-                            cookie,
+                            cookie: ENV == "development" ? 123 : cookie,
                             filling: ratings.filling,
                             wrap: ratings.wrap,
                             ratio: ratings.ratio,
