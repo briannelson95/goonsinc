@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Button from './Button'
 import Form from './Form';
 import Image from 'next/image';
-import PercentageBar from './PercentageBar';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import PercentageBar from './PercentageBar';;
 import urlFor from '@/lib/urlFor';
 import { PortableText } from '@portabletext/react';
 import { RichTextComponent } from './RichTextComponent';
+import { supabase } from '@/lib/supabase.client';
 
 export default function RestauranInfo({restaurantData, ip}: {restaurantData: any, ip: string | null}) {
-    const supabase = useSupabaseClient();
     const [openReview, setOpenReview] = useState(false);
     const [categoryData, setCategoryData]:any = useState([]);
     const [averageScore, setAverageScore]:any = useState();

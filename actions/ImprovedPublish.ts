@@ -1,9 +1,6 @@
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { supabaseClient } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabase.client";
 
 export function ImprovedPublish(originalPublishAction: any) {
-    const supabase = useSupabaseClient();
-    const newSupabase = supabaseClient;
     const BetterAction = (props: any) => {
         const originalResult = originalPublishAction(props);
 
@@ -28,24 +25,6 @@ export function ImprovedPublish(originalPublishAction: any) {
                     originalResult.onHandle();
                 }
             }
-        // } else if (props.type == "categories") { 
-
-        //     return {
-        //         ...originalResult,
-        //         onHandle: () => {
-        //             supabase.from('categories')
-        //                 .insert({
-        //                     title: props.draft.title,
-        //                 })
-        //                 .then(result => {
-        //                     console.log(result)
-        //                     if(!result.error) return
-        //                 })
-
-        //             originalResult.onHandle();
-        //         }
-
-        //     }
         } else {
             // returns original function if type != restaurants
             return {

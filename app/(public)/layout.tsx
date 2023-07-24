@@ -1,6 +1,4 @@
 import Navbar from '@/components/Navbar'
-import Session from '@/components/Session'
-import { Restaurant } from '@/context/FeaturedRestaurantContext'
 import { siteSettings } from '@/lib/queries'
 import { client } from '@/lib/sanity.client'
 import '@/styles/globals.css'
@@ -24,20 +22,18 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <Session>
-        <body className={`${inter.className} bg-gray-200`}>
-          <Navbar navigation={data.navigation} />
-          <div>
-            <Toaster
-              position="bottom-right"
-              reverseOrder={false}
-            />
-          </div>
-          <div className='max-w-4xl mx-auto py-6 px-4 md:px-0'>
-            <Restaurant>{children}</Restaurant>
-          </div>
-        </body>
-      </Session>
+      <body className={`${inter.className} bg-gray-200`}>
+        <Navbar navigation={data.navigation} />
+        <div>
+          <Toaster
+            position="bottom-right"
+            reverseOrder={false}
+          />
+        </div>
+        <div className='max-w-4xl mx-auto py-6 px-4 md:px-0'>
+          {children}
+        </div>
+      </body>
     </html>
   )
 }
