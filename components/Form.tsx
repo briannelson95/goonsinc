@@ -40,7 +40,7 @@ export default function Form({questions, onClick, cookie, parent_id}: {questions
                     toast.error(
                         "A review for this restaurant from this device/internet has already been submitted.\n\nPlease try later or a different internet connection.",
                         {
-                            duration: 6000,
+                            duration: 8000,
                         }
                     )
                 } else {
