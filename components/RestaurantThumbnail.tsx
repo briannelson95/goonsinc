@@ -11,13 +11,18 @@ export default function RestaurantThumbnail({restaurant}: {restaurant: any}) {
                     {restaurant.title}
                 </h2>
             </div>
-            <Image
-                src={urlFor(restaurant.featuredImage.image).url()}
-                height={1000}
-                width={1000}
-                alt=''
-                className='w-full h-full overflow-hidden object-cover z-0 absolute top-0 left-0'
-            />
+            {restaurant.featuredImage ? (
+                <Image
+                    src={urlFor(restaurant.featuredImage.image).url()}
+                    height={1000}
+                    width={1000}
+                    alt=''
+                    className='w-full h-full overflow-hidden object-cover z-0 absolute top-0 left-0'
+                />
+            ) : (
+                <div className='w-full h-full overflow-hidden object-cover z-0 bg-orange-500' />
+            )}
+            
                    
         </Link>
     )

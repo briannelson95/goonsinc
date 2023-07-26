@@ -30,7 +30,7 @@ export default async function RootLayout({
             reverseOrder={false}
           />
         </div>
-        <div className='max-w-4xl mx-auto py-6 px-4 md:px-0'>
+        <div className='max-w-4xl mx-auto py-6 md:px-0'>
           {children}
         </div>
       </body>

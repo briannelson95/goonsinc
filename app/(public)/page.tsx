@@ -1,8 +1,10 @@
 import Featured from '@/components/Featured'
+import { client } from '@/lib/sanity.client';
 import { supabase } from '@/lib/supabase.client';
+import { groq } from 'next-sanity';
 import Image from 'next/image'
 
-export default async function Home() {
+async function getRestaurant() {
   const { data, error }: any = await supabase
     .from('restaurants')
     .select(`
@@ -30,7 +32,7 @@ export default async function Home() {
   const findHighestRatedRestaurant = (data: any) => {
     if (!data || data.length === 0) return null;
   
-    let highestRatedRestaurant = null;
+    let highestRatedRestaurant: any;
     let highestAverageScore = -Infinity;
   
     data.forEach((restaurant: any) => {
@@ -46,12 +48,27 @@ export default async function Home() {
     
   const highestRatedRestaurant = findHighestRatedRestaurant(data);
     
-  console.log("Highest Rated Restaurant:", highestRatedRestaurant);
+  // console.log("Highest Rated Restaurant:", highestRatedRestaurant.title);
+  return highestRatedRestaurant
+};
+
+export default async function Home() {
+  const restaurant = await getRestaurant()
+  const title = restaurant.title
+  const restaurantQuery = groq`*[_type == 'restaurants' && title == '${title}'][0]{
+    title,
+    slug,
+    _id,
+    body,
+    featuredImage,
+  }`
+  const sanityData = await client.fetch(restaurantQuery)
 
   return (
     <main>
-      Homepage
-      {/* <Featured /> */}
+      <div className="w-full">
+        <Featured restaurant={sanityData}/>
+      </div>
     </main>
   )
 }
